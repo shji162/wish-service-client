@@ -8,5 +8,9 @@ export const useUsers = create<userStoreType>((set) => ({
     isAdmin: false,
     setUser: (user) => set({user: user}),
     setAuth: (isAuth) => set({isAuth: isAuth}),
-    setAdmin: (isAdmin) => set({isAdmin: isAdmin})
+    setAdmin: (isAdmin) => set({isAdmin: isAdmin}),
+    logout: () => {
+        localStorage.removeItem("accessToken")
+        set({user: null, isAuth: false, isAdmin: false})
+    },
 }))

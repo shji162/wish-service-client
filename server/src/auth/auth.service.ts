@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from "bcrypt"
 import { CreateUserDto } from './DTO/createUserDto.dto';
 import { ConfigService } from '@nestjs/config';
-import { Roles } from 'src/enums/user.enum';
+import { Roles } from 'src/users/enums/user.enum';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,7 @@ export class AuthService {
 
     async validateToken(token: string) {
         const validate = this.jwtService.verify(token, {
-            secret: this.configService.get<string>("JWT_SECRET")
+            secret: "cf2956bcc563315618dce3fc22ecfa9b"
         })
 
         return validate
@@ -36,7 +36,9 @@ export class AuthService {
             return new BadRequestException('user not exist')
         }
         const payload = { email: user.email, id: user.id, role: user.role };
-        return { accessToken: this.jwtService.sign(payload), user: candidate};
+        return { accessToken: this.jwtService.sign(payload, {
+            secret: "cf2956bcc563315618dce3fc22ecfa9b"
+        }), user: candidate};
     }
 
     async register(user: CreateUserDto) {

@@ -1,10 +1,13 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { mainRoute, regRoute, loginRoute, adminRoute, listsRoute } from "../../consts/routes"
 import { useUsers } from "../../store/userStore"
 import styles from "./Header.module.css"
 
 export const Header = () => {
-    const { isAuth, isAdmin } = useUsers((state) => state)
+
+    const navigate = useNavigate()
+    const { isAuth, isAdmin, logout } = useUsers((state) => state)
+
     
     return (
         <header className={styles.header}>
@@ -24,6 +27,19 @@ export const Header = () => {
                     <Link to={isAuth ? listsRoute : loginRoute} className={styles.navLink}>
                         списки
                     </Link>
+
+                    {isAuth && (
+                        <button
+                            type="button"
+                            className={styles.logoutBtn}
+                            onClick={() => {
+                                logout()
+                                navigate(mainRoute)
+                            }}
+                        >
+                            выйти
+                        </button>
+                    )}
 
                     {!isAuth && (
                         <>

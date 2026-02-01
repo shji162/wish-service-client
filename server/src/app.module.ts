@@ -4,19 +4,16 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
-import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtGuard } from './auth/guards/auth.guard';
 import { ListsModule } from './lists/lists.module';
 import { WishesModule } from './wishes/wishes.module';
 import { CommentsModule } from './comments/comments.module';
 
 @Module({
-  imports: [UsersModule, MongooseModule.forRoot('mongodb://localhost/nest'), AuthModule, ListsModule,
+  imports: [UsersModule, MongooseModule.forRoot(process.env.MONGODB_URI as string), AuthModule, ListsModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ".env"
+      envFilePath: ".env.local"
     }),
     WishesModule,
     CommentsModule

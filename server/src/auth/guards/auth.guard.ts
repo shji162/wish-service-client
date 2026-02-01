@@ -18,11 +18,14 @@ export class JwtGuard extends AuthGuard('jwt') {
       context.getHandler(),
       context.getClass(),
     ]);
+    if(request.method === "OPTIONS") return true
     if (isPublic) return true;
 
     if (!token) {
       throw new UnauthorizedException('Invalid token');
     }
+
+
 
     const accessToken = token.split(' ')[1]
 
